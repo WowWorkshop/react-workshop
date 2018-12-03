@@ -3,3 +3,4 @@ node_modules
 build
 *.log
 .nyc_output
+.idea

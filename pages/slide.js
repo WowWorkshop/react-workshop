@@ -131,7 +131,7 @@ export default class extends React.Component {
         readOnly
         defaultValue={`class: middle\r\n${this.props.slide}`}
       />
-      <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js"/>
+      <script src="/static/remark-latest.min.js"/>
       <script>
         {'var slideshow = remark.create();'}
       </script>

@@ -8,9 +8,8 @@ layout: true
 https://github.com/facebookincubator/create-react-app
 
 ```js
-npm install -g create-react-app
+yarn create-react my-app
 
-create-react-app my-app
 cd my-app
 ```
 ---
@@ -42,6 +41,13 @@ layout: true
 ## Reusability
 - Reuse Components
 - Reuse JS logic
+
+---
+## Some more packages
+
+- react-redux
+- react-router
+- UI framework (e.g: material-ui)
 
 ---
 

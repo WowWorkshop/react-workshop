@@ -1,5 +1,6 @@
 import express from 'express'
 import next from 'next'
+import path from 'path'
 import getSlidesList from './utils/getSlidesList'
 import updateSlideList from './utils/updateSlideList'
 import readSlideContent from './utils/readSlideContent'
@@ -39,6 +40,8 @@ app.prepare()
       req.context = { slide }
       return app.render(req, res, '/slide')
     })
+
+    server.use('/static', express.static(path.join(__dirname, '../public')))
 
     server.get('*', (req, res) => {
       return handle(req, res)

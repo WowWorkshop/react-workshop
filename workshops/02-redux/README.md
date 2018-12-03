@@ -2,21 +2,7 @@
 class: middle center
 # Redux
 ---
-class: middle center
 # Homework Review
----
-layout: true
-# Application with Data
----
-
-```js
-props => <Component {...props} />
-
-          ...
-
-data => <Application {...data} />
-```
----
 
 ```js
 const TodoMVC = props => (
@@ -44,31 +30,27 @@ class: middle
 layout: false
 # Redux
 - State Management
-- Predictable State
+
+http://redux.js.org/
+
 ---
-layout: true
-# Data Flow
+# How to manage status?
+
+- State
+- Props
+- Refs
+- Event
+
 ---
+# Why redux
 
-```
-  data => <Application {...data} />
+![](https://css-tricks.com/wp-content/uploads/2016/03/redux-article-3-03.svg)
 
-              ||
-              ﹀
-  (data <=> <Application />) <=> User
 
-              ||
-              ﹀
-   State ----->  View(Component)
-        ︿        /
-         \       /
-          \     ﹀
-            User
-```
 ---
 layout: false
 .center[
-![](http://christianhall.me/redux-101/img/redux-unidir-ui-arch.jpg)
+![](https://image.slidesharecdn.com/reactjs-redux-160705105436/95/workshop-20-reactjs-part-ii-flux-pattern-redux-6-638.jpg?cb=1467716310)
 ]
 ---
 
@@ -94,14 +76,25 @@ store.subscribe(() => {
 store.dispatch({ type: 'INCREMENT' })
 
 ```
+
+http://localhost:3001/redux-counter-timer
+
+Compare with:
+http://localhost:3000/counter-timer in 01-basics
+
 ---
 
 # Practice
-- Integrate Redux with React
-- Do not use any other tools rather than React or Redux
-- Add setInterval to dispatch 'INCREMENT' action
+- Use click event to dispatch 'INCREMENT' action
 
-Hint: You might need `setState` API to update Component
+From:
+http://localhost:3001/redux-counter-event
+
+Example:
+http://localhost:3001/redux-counter-event-final
+
+Compare with:
+http://localhost:3000/counter-click in 01-basics
 ---
 
 # React Redux
@@ -124,30 +117,31 @@ ReactDom.render(
 , rootDom)
 
 ```
+
+http://localhost:3001/react-redux-counter-event
+
 ---
 
-# Reducer and Action
+# Dispath action anywhere
 
-```js
-const counterReducer = (state = 0, action) => {
-  switch (action.type) {
-  case 'INCREMENT':
-    return state + 1
-  case 'DECREMENT':
-    return state - 1
-  default:
-    return state
-  }
-}
-const incrementAction = { type: 'INCREMENT' }
+http://localhost:3001/react-redux-counter-buttons
 
-const store = createStore(counterReducer)
-store.dispatch(incrementAction)
-```
+Compare with http://localhost:3000/number-controller-final in 01-basics
+
 ---
-class: middle center
-# **Quick** Practice React Redux
-## Refactor the previous Practice with `react-redux`
+# Practice
+## Add new action to the counter
+
+- Two new button:
+  - Click to double the number
+  - Click to reset the number
+- Show a new number which is the origin number's power
+
+From:
+http://localhost:3001/react-redux-counter-new-events
+
+Example:
+http://localhost:3001/react-redux-counter-new-events-final
 
 ---
 layout: true
@@ -173,300 +167,109 @@ const incrementActionAsyncThunk = (dispatch) => {
     dispatch(incrementAction)
   }, 1000)
 }
-
-const incrementIfOddActionAsyncThunk = (dispatch, getState) => {
-  const { counter } = getState();
-
-  if (counter % 2 !== 0) {
-    dispatch(incrementAction)
-  }
-}
-
 ```
 
----
-layout: false
-.center[
-![](http://christianhall.me/redux-101/img/redux-unidir-ui-arch.jpg)
-]
+http://localhost:3001/react-redux-thunk
 
 ---
 layout: true
 # Redux Middleware
 ---
 
-## Redux Thunk
+## Use Redux Thunk in Middleware
 
 ```js
 ({ dispatch, getState }) => next => action => {
-  if (typeof action === 'function') {
-    return action(dispatch, getState);
-  }
+  // Do something with action
 
   return next(action);
 };
+
 ```
 
+Example:
+
 ```js
-({ dispatch, getState }) => {
-  return next => {
-    return action => {
-      if (typeof action === 'function') {
-        return action(dispatch, getState);
-      }
-
-      return next(action);
-    };
-  }
-}
-```
----
-
-# Practice
-- Create Async action with thunk
-  - A component will trigger an action every 2 seconds from componentDidMount
-  - This action will dispatch another increment action after 2 seconds
-- Create a simple logger redux middleware
-  - `console.log` every action with action type
----
-
-## Logger and Dev Tool
-- https://github.com/evgenyrodionov/redux-logger
-- https://github.com/gaearon/redux-devtools
-- https://github.com/zalmoxisus/redux-devtools-extension
----
-
-## Setup Dev Tool
-```js
-import { createStore, applyMiddleware, compose } from 'redux'
-import { createDevTools } from 'redux-devtools'
-import LogMonitor from 'redux-devtools-log-monitor'
-import DockMonitor from 'redux-devtools-dock-monitor'
-
-const DevTool = createDevTools(
-  <DockMonitor toggleVisibilityKey='ctrl-h'
-               changePositionKey='ctrl-q'
-               changeMonitorKey='ctrl-m'>
-    <LogMonitor />
-  </DockMonitor>
-)
-const store = createStore(
-  rootReducer,
-  initialState,
-  compose(applyMiddleware(thunk), DevTools.instrument())
-)
-render(
-  <Provider store={store}>
-    <div><TodoApp /><DevTools /></div>
-  </Provider>
-  document.getElementById('app')
-)
-```
----
-layout: false
-# Utils for actions and reducers
-```js
-const increment = () => { type: INCREMENT }
-const incrementTwiceWith = (x) => {
-  type: INCREMENT_TWICE_WITH,
-  payload: x * 2
+const logger = ({ dispatch, getState }) => next => action => {
+  console.log('action type', action.type);
+  next(action)
 }
 
-const reducer = (state, action) => ({
+const store = createStore(couterReducer, applyMiddleware(thunk, logger))
+```
+
+http://localhost:3001/react-redux-middleware
+---
+layout: true
+# Painful in redux
+---
+
+- Lots of template code
+- Complex in async programing
+```js
+const couterReducer = (state = { count: 0 }, action) => {
   switch (action.type) {
     case INCREMENT:
-      return state + 1
-    case INCREMENT_TWICE_WITH:
-      return state + action.payload
+      return {
+        count: state.count + 1
+      }
+    case DECREMENT:
+      return {
+        count: state.count - 1
+      }
     default:
       return state
   }
-})
+}
 ```
-
 ```js
-import { createAction, handleActions } from 'redux-actions'
-const increment = createAction(INCREMENT)
-const incrementTwiceWith = createAction(INCREMENT_TWICE_WITH, x => x * 2)
-const reducer = handleActions({
-  [INCREMENT]: state => state + 1,
-  [INCREMENT_TWICE_WITH]: (state, action) => state + action.payload * 2
-})
-```
----
-
-## Practice
-Refactor your practice with the `logger` and `redux-action`
-
-```js
-import { createAction, handleActions } from 'redux-actions'
-const increment = createAction(INCREMENT)
-const incrementTwiceWith = createAction(INCREMENT_TWICE_WITH, x => x * 2)
-const reducer = handleActions({
-  [INCREMENT]: state => state + 1,
-  [INCREMENT_TWICE_WITH]: (state, action) => state + action.payload * 2
-})
+const IncreaseButtonContainerAsyncThunk = connect(
+  state => ({
+    text: "Click me to increase the number in 2s by thunk"
+  }),
+  dispatch => ({
+    onClick: () => incrementActionAsyncThunk(store.dispatch)
+  })
+)(Button)
 ```
 
-```js
-import { createStore, applyMiddleware, compose } from 'redux'
-import { createDevTools } from 'redux-devtools'
-import LogMonitor from 'redux-devtools-log-monitor'
-import DockMonitor from 'redux-devtools-dock-monitor'
-
-const DevTool = createDevTools(
-  <DockMonitor toggleVisibilityKey='ctrl-h'
-               changePositionKey='ctrl-q'
-               changeMonitorKey='ctrl-m'>
-    <LogMonitor />
-  </DockMonitor>
-)
-const store = createStore(
-  rootReducer,
-  initialState,
-  compose(applyMiddleware(thunk), DevTools.instrument())
-)
-```
 ---
 layout: true
-# Complex Actions
+# Rematch
 ---
-
-## Logic in Reducer or Action?
+https://rematch.gitbooks.io/rematch/#getting-started 
 ```js
-const incrementActionThunk = () => ({ type: 'INCREMENT' })
-const reducer = (state, action) => ({
-  if (action.type === 'INCREMENT') {
-    state = state + 1
-  }
-})
-```
-
-```js
-const updateCount = (dispatch, getState) => ({
-  type: 'INCREMENT',
-  payload: getState().count + 1
-})
-const reducer = (state, action) => ({
-  if (action.type === 'INCREMENT') {
-    state = action.payload
-  }
-})
-```
-???
-Complex action or Complex reducer
-- Event system disadvantage
-- Database driven design
----
-
-## Reuse Actions
-```js
-const increment = () => { type: INCREMENT }
-```
-```js
-const incrementTwiceWith = (x) => {
-  type: INCREMENT_TWICE_WITH,
-  payload: x * 2
-}
-```
-
-```js
-const incrementWith = x => {
-  type: INCREMENT_WITH,
-  payload: x
-}
-const increment = () => dispatch => dispatch(incrementWith(1))
-const incrementTwiceWith = (x) => dispatch => dispatch(incrementWith(x * 2))
-
-```
----
-
-## Async Actions
-```js
-const initialState = {
-  user: {
-    id: null
+export const count = {
+  state: 0, // initial state
+  reducers: {
+    // handle state changes with pure functions
+    increment(state) {
+      return state + 1
+    }
   },
-  isLoading: false
-}
-```
-```js
-const login = (username, password) => (dispatch, getState) => {
-  const { isLoading } = getState()
-  if (!isLoading) {
-    dispatch(loading(true))
-  }
-  API.login({ username, password }).then(user => {
-      dispatch(loading(false))
-      dispatch(user ? loginSuccess(user) : loginFail())
-    }).catch(e => {
-      dispatch(loading(false))
-      loginFail(e)
-    })
-}
-```
----
-layout: false
-# Practice for Complex Actions
-- Refactor previous Practice with `redux-actions`
-- Add waiting status for async increment
-  - An async increment button to trigger increment in 1 second
-  - While waiting for async increment, show waiting
-  - When increment done, remove waiting
-
-Hint: you might need`react-redux` to connect your action with component
----
-layout: true
-# Redux Saga
----
-
-## A separate thread in your application that's solely responsible for side effects
----
-class: center middle
-![](https://pbs.twimg.com/media/Ci4r4TgUUAAisub.jpg)
----
-
-```js
-const INCREMENT_ASYNC = 'INCREMENT_ASYNC'
-
-const incrementAsync = createAction(INCREMENT_ASYNC)
-
-const incrementAsyncSaga = function* incrementAsync() {
-  return new Promise((res, rej) => {
-    // Or do something else async
-    setTimeout(() => res(), 1000)
+  effects: (dispatch) => ({
+    // handle state changes with impure functions.
+    // use async/await for async actions
+    async incrementAsync(payload, rootState) {
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      dispatch.count.increment(payload)
+    }
   })
 }
-const rootSaga = function* root() {
-  yield [
-    takeLatest(INCREMENT_ASYNC, incrementAsyncSaga)
-  ]
-}
-const sagaMiddleware = createSagaMiddleware()
-const store = createStore(
-  reducer,
-  applyMiddleware(thunk, sagaMiddleware),
-  initialState
-)
-sagaMiddleware.run(rootSaga)
-
 ```
----
-
-# Practice
-
-Refactor previous Practice **Complex Action** into Saga
+http://localhost:3001/react-redux-counter-new-events-remarch
 
 ---
 layout: false
 class: center middle
+# Questions
+
+---
+layout: false
 # Homework
-.left[
 ## Improve your TodoMVC with Redux
 - Map and manage your state to Redux
 - Save your state in localStorage
-- Use Saga to operate the localStorage
-]
 
 ---
 class: center middle

@@ -24,7 +24,7 @@ const index = require('./routes/index')
 app.use('/', index)
 
 // Serve static assets
-app.use(express.static(path.resolve(__dirname, '..', 'build')))
+app.use(express.static(path.resolve(__dirname, '..', 'public')))
 
 const api = require('./routes/api')
 app.use('/api', api)

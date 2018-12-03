@@ -12,8 +12,7 @@ import {Provider} from 'react-redux'
 const routes = createRoutes({})
 
 module.exports = function universalLoader(req, res) {
-  //res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'))
-  const filePath = path.resolve(__dirname, '..', 'build', 'index.html')
+  const filePath = path.resolve(__dirname, '..', 'public', 'index.html')
 
   fs.readFile(filePath, 'utf8', (err, htmlData)=>{
     if (err) {
