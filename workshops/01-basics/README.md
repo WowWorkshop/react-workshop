@@ -1,4 +1,3 @@
-class: middle center
 # Basics of React
 
 ---
@@ -6,6 +5,7 @@ class: middle center
 
 - ES6
 - JSX
+- Vs. AngularJS
 
 ---
 
@@ -96,14 +96,99 @@ class MyComponent extends React.Component {
 }
 ```
 
-- Use {} for js code
-- class -> className
-- use object for style
+- Variables/Function in HTML
+- Operate HTML as variable/component
+- Use {} for JS code
+- Keyword class -> className
+- Use object for style
+
+---
+layout: true
+
+#Vs. DOM
+
+---
+## DOM with Javascript
+
+- DOM based operation
+- Context first
+- DOM as single source of truth
+
+```html
+<script type="text/javascript">
+  function onChange(event) {
+    console.log(event);
+    console.log(this.value);
+  }
+</script>
+
+<input type="text" name="input" value="" onChange="onChange">
+```
+
+---
+
+## DOM with jQuery
+
+- jQuery object based operation
+- jQuery as namespace
+- DOM as single source of truth
+
+```html
+<input type="text" id="input" value="">
+
+<script type="text/javascript">
+  $('#id').on('change', function (event) {
+    console.log(event);
+    console.log($(this).val());
+  })
+</script>
+```
+---
+layout: false
+
+# JSX Recap
+
+- Component based operation
+- Modules/Packages
+- Props data as single source of truth
+
+```js
+(props) => (
+  <input type="text" name="input" value="input" onChange={event => {
+    console.log(event)
+    console.log(event.target.value)
+  }}>
+)
+
+const Icon = props => (
+  <i className={`icon icon-${props.name}`}>{props.children}</i>
+)
+```
+---
+
+# Read more
+
+- https://reactjs.org/docs/introducing-jsx.html
+- https://reactjs.org/docs/jsx-in-depth.html
+
+---
+# Vs. AngularJS
+## What is React ?
+...
+
+## The differences between React and AngularJS
+
+...
 
 ---
 class: middle center
 
-# Questions?
+# Why React ?
+
+---
+
+# React ...
+
 
 ---
 
@@ -125,12 +210,12 @@ class: middle center
 - Open http://localhost:3000/ in browser to see the list of examples
 
 ---
-# Hello world
+# Hello World
 ## Component
 ```js
 class HellWorld extends Component {
   render() {
-      return (<div>Hello world!</div>);
+      return (<div>Hello World!</div>);
   }
 }
 ```
@@ -138,13 +223,60 @@ http://localhost:3000/hello-world-component
 
 ## Pure function
 ```js
-const HellWorld = (props) => <div>Hello world!</div>;
+const HellWorld = (props) => <div>Hello World!</div>;
 ```
 http://localhost:3000/hello-world-purefunction
 
 ---
+# When to use Component
+- State
+- Lifecycle
+
+```js
+class MyComponent extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      target: 'loading'
+    }
+  }
+  componentDidMount() {
+    this.setState({
+      target: 'loaded'
+    })
+  }
+  render() {
+    return <div>State: {this.state.target}</div>
+  }
+}
+```
+
+---
+
+# Pure Function is preferred
+
+- Static styled components
+- Self managed components
+- Event Driven components
+
+```js
+const MyComponent = props => <div className="header-titile">Hello</div>
+
+const Toggle = props => (
+  <span
+    onClick={props.onClick && (evt) => props.onClick(evt)}
+  >
+    {props.children}
+  </span>
+)
+Toggle.displayName = 'Radio'
+Toggle.propTypes = { ... }
+
+```
+
+---
 # Props
-## The properties for the component
+The properties for the component:
 ```js
 const Text = (props) => <p style={{ color: props.color }}>Text: {props.text}</p>;
 
@@ -158,13 +290,15 @@ const ColorfulTexts = (props) => (
   </div>
 )
 ```
-http://localhost:3000/colorful-text
+
+Example: http://localhost:3000/colorful-text
+
 - Readonly
-- Have to be passed from parent
+- To be passed from parent
 
 ---
-# Practice
-## Try create a "User" component from this template
+# Practice for Props
+Try to create `User` component from this template:
 
 ```js
 const User = (props) => <p>...</p>;
@@ -192,9 +326,9 @@ Example:
 http://localhost:3000/user-final 
 ---
 
-# Props in component
+# Props in Component
 
-Use `this.props` to refer the props
+Use `this.props` to refer the props:
 ```js
 class Text extends Component {
   render() {
@@ -202,10 +336,10 @@ class Text extends Component {
   }
 }
 ```
-http://localhost:3000/colorful-text-component
+Example: http://localhost:3000/colorful-text-component
 
-The same with the pure function one:  
-http://localhost:3000/colorful-text
+The same with the pure function one: http://localhost:3000/colorful-text
+
 ---
 
 # State
@@ -233,11 +367,10 @@ class Counter extends Component {
 }
 ```
 
-http://localhost:3000/counter-timer
+Example: http://localhost:3000/counter-timer
 
 - Initial state at beginning
 - Use `this.setState()` to change state
-- This is just an example, don't follow the same way in real code
 
 ---
 # Event
@@ -259,20 +392,20 @@ class Counter extends Component {
   }
 }
 ```
-http://localhost:3000/counter-click
 
-- Use **Arrow Function** to define event hander function
-- Refer this page for all events:  
-  https://facebook.github.io/react/docs/events.html 
+Example: http://localhost:3000/counter-click
+
+- Use **Arrow Function** to define event handler function
+- Refer this page for all events: https://reactjs.org/docs/events.html 
 
 ---
 # An example to combine these features
 ## props, state, event
 
-http://localhost:3000/counter-buttons
+Example: http://localhost:3000/counter-buttons
 
 ---
-# Pratice
+# Practice for Props, State and Event
 ## Number controllers
 - Show a number (default is 0)
 - Four buttons to control the number
@@ -286,6 +419,29 @@ http://localhost:3000/number-controller
 
 Example:
 http://localhost:3000/number-controller-final
+
+---
+# One more practice
+**Create a `Dropdown` Component:**
+ - Show a clickable button
+ - When click, show a dropdown
+ - Toggle the dropdown list when click again
+
+```js
+import DropDown from './DropDown'
+
+const dropdownList = (
+  <ul>
+    <li>BA</li>
+    <li>DEV</li>
+    <li>PO</li>
+    <li>QA</li>
+    <li>UX</li>
+  </ul>
+)
+const MyDropDown = <DropDown dropdown={dropdownList}>Click Me</DropDown>
+
+```
 
 ---
 # Refs
@@ -315,7 +471,7 @@ class Input extends Component {
 - Use this.refs.[name] to refer the element
 - Try to avoid use "refs" in code
 
-http://localhost:3000/input-refer
+Example: http://localhost:3000/input-refer
 
 ---
 # Array in elements
@@ -323,8 +479,8 @@ http://localhost:3000/input-refer
 - Array of JSX element can be used in JSX
 - Add "key" attribute for array element
 
-http://localhost:3000/user-final-array  
-http://localhost:3000/counter-buttons-array
+Example: http://localhost:3000/user-final-array  
+Example: http://localhost:3000/counter-buttons-array
 
 ---
 # Lifecycle
@@ -341,27 +497,14 @@ Make sure the increase method will only be ran when the component is mounted
 http://localhost:3000/counter-time-lifecycle
 
 ## Reference
-https://facebook.github.io/react/docs/react-component.html
+- https://reactjs.org/docs/react-component.html
 
 ---
-# Think in react
+# Thinking in React
 
-https://reactjs.org/docs/thinking-in-react.html
+- https://reactjs.org/docs/thinking-in-react.html
 
 ---
+layout: false
 class: center middle
-# Questions?
-
----
-# Homework
-
-## Implement a TodoMVC
-- Pure React
-  - State
-  - Props
-  - Refs
-  - Event
-- No style required
-- No DOM operation
-
-http://todomvc.com/
+# Thanks !

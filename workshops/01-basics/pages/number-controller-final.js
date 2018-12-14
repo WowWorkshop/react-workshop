@@ -11,7 +11,7 @@ class NumberController extends Component {
     count: 0
   }
 
-  increace = () => {
+  increase = () => {
     this.setNewCount(this.state.count + 1)
   }
 
@@ -38,7 +38,7 @@ class NumberController extends Component {
     return (
       <div>
         <p>Number: {this.state.count}</p>
-        <Controller clickHandler={this.increace} text="Click to increase by 1" />
+        <Controller clickHandler={this.increase} text="Click to increase by 1" />
         <Controller clickHandler={this.decrease} text="Click to decrease by 1" />
         <Controller clickHandler={this.double} text="Click to double the number" />
         <Controller clickHandler={this.reset} text="Click to reset the number" />

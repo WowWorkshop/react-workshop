@@ -1,34 +1,8 @@
-
-class: middle center
 # Redux
----
-# Homework Review
 
-```js
-const TodoMVC = props => (
-  <Container>
-    <Header>
-      <Filters />
-    </Header>
-    <TodoList>
-      <TodoItem>
-        <Status />
-        <Text />
-        <TextEditor />
-      </TodoItem>
-      {...}
-    </TodoList>
-    <Footer />
-  </Container>
-)
-```
-???
-- Dynamic use input
-- Shared data cross components
 ---
-class: middle
 layout: false
-# Redux
+# What is Redux?
 - State Management
 
 http://redux.js.org/
@@ -42,7 +16,7 @@ http://redux.js.org/
 - Event
 
 ---
-# Why redux
+# Why Redux?
 
 ![](https://css-tricks.com/wp-content/uploads/2016/03/redux-article-3-03.svg)
 
@@ -77,24 +51,24 @@ store.dispatch({ type: 'INCREMENT' })
 
 ```
 
-http://localhost:3001/redux-counter-timer
+Example: http://localhost:3001/redux-counter-timer
 
 Compare with:
 http://localhost:3000/counter-timer in 01-basics
 
 ---
 
-# Practice
+# Let's Practice
+**Task:**
 - Use click event to dispatch 'INCREMENT' action
 
-From:
-http://localhost:3001/redux-counter-event
 
-Example:
-http://localhost:3001/redux-counter-event-final
+Start: http://localhost:3001/redux-counter-event
 
-Compare with:
-http://localhost:3000/counter-click in 01-basics
+Example: http://localhost:3001/redux-counter-event-final
+
+Compare with http://localhost:3000/counter-click in 01-basics
+
 ---
 
 # React Redux
@@ -115,16 +89,15 @@ ReactDom.render(
     <ConnectedApp />
   </Redux>
 , rootDom)
-
 ```
 
-http://localhost:3001/react-redux-counter-event
+Example: http://localhost:3001/react-redux-counter-event
 
 ---
 
-# Dispath action anywhere
+# Dispatch action anywhere
 
-http://localhost:3001/react-redux-counter-buttons
+Example: http://localhost:3001/react-redux-counter-buttons
 
 Compare with http://localhost:3000/number-controller-final in 01-basics
 
@@ -137,11 +110,9 @@ Compare with http://localhost:3000/number-controller-final in 01-basics
   - Click to reset the number
 - Show a new number which is the origin number's power
 
-From:
-http://localhost:3001/react-redux-counter-new-events
+Start: http://localhost:3001/react-redux-counter-new-events
 
-Example:
-http://localhost:3001/react-redux-counter-new-events-final
+Example: http://localhost:3001/react-redux-counter-new-events-final
 
 ---
 layout: true
@@ -155,6 +126,7 @@ let x = 1 + 2;
 
 let foo = () => 1 + 2;
 ```
+
 ---
 
 ```js
@@ -169,7 +141,7 @@ const incrementActionAsyncThunk = (dispatch) => {
 }
 ```
 
-http://localhost:3001/react-redux-thunk
+Example: http://localhost:3001/react-redux-thunk
 
 ---
 layout: true
@@ -184,7 +156,6 @@ layout: true
 
   return next(action);
 };
-
 ```
 
 Example:
@@ -198,7 +169,8 @@ const logger = ({ dispatch, getState }) => next => action => {
 const store = createStore(couterReducer, applyMiddleware(thunk, logger))
 ```
 
-http://localhost:3001/react-redux-middleware
+Example: http://localhost:3001/react-redux-middleware
+
 ---
 layout: true
 # Painful in redux
@@ -206,22 +178,20 @@ layout: true
 
 - Lots of template code
 - Complex in async programing
+
 ```js
 const couterReducer = (state = { count: 0 }, action) => {
   switch (action.type) {
-    case INCREMENT:
-      return {
-        count: state.count + 1
-      }
-    case DECREMENT:
-      return {
-        count: state.count - 1
-      }
+    case I'NCREMENT':
+      return { count: state.count + 1 }
+    case 'DECREMENT':
+      return { count: state.count - 1 }
     default:
       return state
   }
 }
 ```
+
 ```js
 const IncreaseButtonContainerAsyncThunk = connect(
   state => ({
@@ -235,9 +205,12 @@ const IncreaseButtonContainerAsyncThunk = connect(
 
 ---
 layout: true
+
 # Rematch
+
 ---
-https://rematch.gitbooks.io/rematch/#getting-started 
+#### https://rematch.gitbooks.io/rematch/#getting-started
+
 ```js
 export const count = {
   state: 0, // initial state
@@ -257,20 +230,10 @@ export const count = {
   })
 }
 ```
-http://localhost:3001/react-redux-counter-new-events-remarch
+
+Example: http://localhost:3001/react-redux-counter-new-events-remarch
 
 ---
 layout: false
 class: center middle
-# Questions
-
----
-layout: false
-# Homework
-## Improve your TodoMVC with Redux
-- Map and manage your state to Redux
-- Save your state in localStorage
-
----
-class: center middle
-# Thanks
+# Thanks !

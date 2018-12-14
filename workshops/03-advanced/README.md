@@ -275,7 +275,7 @@ test(t => {
 ```
 ---
 layout: true
-# React Unit Test -- Enzyme
+# React Unit Test - Enzyme
 ---
 
 ```js
@@ -363,8 +363,8 @@ test(t => {
   - options
   - onChange
   - name
+
 ---
 layout: false
-# Homework
-- Add Unit test to the todo MVC sub components
-- Plus, add DOM render unit test, if needed
+class: center middle
+# Thanks !

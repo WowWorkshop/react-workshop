@@ -1,6 +1,26 @@
 # React Engineering
 
 ---
+layout: false
+class: center middle
+# Let's start our own
+# React App now !
+
+---
+# Demo Project
+
+## Implement a TodoMVC
+- Pure React
+  - State
+  - Props
+  - Refs
+  - Event
+- No style required
+- No DOM operation
+
+Reference: http://todomvc.com/
+
+---
 layout: true
 # create-react-app
 ---
@@ -8,9 +28,13 @@ layout: true
 https://github.com/facebookincubator/create-react-app
 
 ```js
-yarn create-react my-app
+yarn create-react my-todo
 
-cd my-app
+cd my-todo
+
+yarn install
+
+yarn start
 ```
 ---
 
@@ -33,6 +57,35 @@ my-app/
 ```
 
 ---
+layout: false
+
+# Remove... 
+
+---
+
+# Demo Project
+.left[
+## Improve your TodoMVC with Redux
+- Map and manage your state to Redux
+- Save your state in localStorage
+- Use Saga to operate the localStorage
+]
+
+---
+
+# Demo Project
+#### Try to add some tests to your TodoMVC 
+- Add unit test to your TodoMVC sub components
+- Plus, add DOM render unit test, if needed
+
+*Think more with TDD...*
+
+---
+class: middle center
+
+# More Tips...
+
+---
 layout: true
 # Isomorphic
 
@@ -42,7 +95,6 @@ layout: true
 - Reuse Components
 - Reuse JS logic
 
----
 ## Some more packages
 
 - react-redux
@@ -50,8 +102,8 @@ layout: true
 - UI framework (e.g: material-ui)
 
 ---
-
 ## SSR Server-side-render
+
 - React Dom server render
 - React Router reuse
 
@@ -61,6 +113,13 @@ layout: true
 
 ---
 layout: false
+
+# StoryBook
+
+
+---
+# Recap
+
+---
 class: center middle
-# You can start your own
-# React App now !
+# Thanks !
